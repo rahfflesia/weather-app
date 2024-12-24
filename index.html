@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="ok.css" />
+    <script src="main.js" defer></script>
+    <title>WeatherApp</title>
+  </head>
+  <body>
+    <header>
+      <div class="logo center">WeatherApp</div>
+      <div class="search">
+        <input
+          type="text"
+          class="city"
+          placeholder="Enter a city or zip code"
+        />
+        <div class="search-icon center">
+          <img src="icons/search-interface-symbol.png" alt="search-icon" />
+        </div>
+      </div>
+    </header>
+    <main class="center">
+      <div class="weather-info">
+        <div class="main-info center">
+          <p
+            class="indexed-city"
+            style="font-weight: bold; font-size: 3rem"
+          ></p>
+          <p class="current-weather"></p>
+          <p class="current-temp"></p>
+          <p class="temps"></p>
+          <p class="description" style="font-size: 1.6rem"></p>
+        </div>
+        <div class="details-a center">
+          <p class="wind-speed"></p>
+          <p class="humidity"></p>
+        </div>
+        <div class="details-b center">
+          <p class="dew-point"></p>
+          <p class="etc"></p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

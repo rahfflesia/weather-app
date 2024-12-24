@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Jost", serif;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+html,
+body {
+  min-height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+input[type="text"] {
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 1rem 1.5rem;
+  border-radius: 1.5rem;
+}
+
+body {
+  background-color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.search-icon img {
+  width: 20px;
+  height: 20px;
+}
+
+.search-icon {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 100%;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.search-icon:hover {
+  transform: scale(1.02);
+}
+
+.search {
+  display: flex;
+  gap: 1rem;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-info {
+  display: grid;
+  grid-template-areas:
+    "main main side side"
+    "main main side side"
+    "main main sideB sideB"
+    "main main sideB sideB";
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 3rem;
+  font-size: 2.6rem;
+  gap: 1rem;
+  border-radius: 1.1rem;
+}
+
+.main-info {
+  grid-area: main;
+  text-align: center;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.details-a {
+  grid-area: side;
+  font-size: 2.3rem;
+}
+
+.details-b {
+  grid-area: sideB;
+  font-size: 2.3rem;
+}
+
+.details-a,
+.details-b {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weather-info > * {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 1.2rem;
+  padding: 3rem;
+}
