@@ -3,6 +3,8 @@ const cors = {
   mode: "cors",
 };
 
+let w;
+
 getWeather();
 
 async function getWeather(city = "Madrid") {
@@ -13,9 +15,11 @@ async function getWeather(city = "Madrid") {
       cors
     );
     const weatherData = await response.json();
-    displayMainInfo(weatherData);
-    displayDetails(weatherData);
     getImage(weatherData.days[0].conditions);
+    w = weatherData;
+    displayInformation();
+    convert(Math.round, "°C");
+    changeSelectValue(document.querySelector(".convert"), "Celsius");
   } catch (error) {
     console.log(error);
   }
@@ -29,52 +33,61 @@ async function getImage(weather) {
       cors
     );
     const imageData = await response.json();
-    changeBackground(imageData.hits[0].largeImageURL);
+    const randomValue = getRandomValue(imageData.hits.length);
+    changeBackground(imageData.hits[randomValue].largeImageURL);
   } catch (error) {
     console.log(error);
   }
 }
 
+function getWeatherObject(object) {
+  return {
+    temp: object.days[0].temp,
+    maxTemp: object.days[0].tempmax,
+    minTemp: object.days[0].tempmin,
+    dewPoint: object.days[0].dew,
+    feelsLike: object.days[0].feelslike,
+    windSpeed: object.days[0].windspeed,
+    humidity: object.days[0].humidity,
+    currentCity: object.resolvedAddress,
+    currentWeather: object.days[0].conditions,
+    description: object.description,
+  };
+}
+
+function changeSelectValue(select, optionValue) {
+  select.value = optionValue;
+}
+
+function displayInformation() {
+  const weatherObj = getWeatherObject(w);
+  document.querySelector(".indexed-city").textContent =
+    weatherObj["currentCity"];
+  document.querySelector(".current-weather").textContent =
+    weatherObj["currentWeather"];
+  document.querySelector(".current-temp").textContent = Math.round(
+    weatherObj["temp"]
+  );
+  document.querySelector(".max-temp").textContent = Math.round(
+    weatherObj["maxTemp"]
+  );
+  document.querySelector(".min-temp").textContent = Math.round(
+    weatherObj["minTemp"]
+  );
+  document.querySelector(".wind-speed").textContent =
+    "Wind speed: " + weatherObj["windSpeed"] + " km/h";
+  document.querySelector(".humidity").textContent =
+    "Humidity: " + weatherObj["humidity"] + " %";
+  document.querySelector(".dew-point").textContent = Math.round(
+    weatherObj["dewPoint"]
+  );
+  document.querySelector(".etc").textContent = Math.round(
+    weatherObj["feelsLike"]
+  );
+}
+
 function clearInput(input) {
   input.value = "";
-}
-
-function displayMainInfo(weatherData) {
-  const currentCity = document.querySelector(".indexed-city");
-  currentCity.textContent = weatherData.resolvedAddress;
-
-  const currentWeather = document.querySelector(".current-weather");
-  currentWeather.textContent = weatherData.days[0].conditions;
-
-  const currentTemp = document.querySelector(".current-temp");
-  currentTemp.textContent = Math.round(weatherData.days[0].temp) + "°C";
-
-  const temps = document.querySelector(".temps");
-  temps.textContent =
-    Math.round(weatherData.days[0].tempmax) +
-    "°C" +
-    "/" +
-    Math.round(weatherData.days[0].tempmin) +
-    "°C";
-
-  const desc = document.querySelector(".description");
-  desc.textContent = weatherData.description;
-}
-
-function displayDetails(weatherData) {
-  const windSpeed = document.querySelector(".wind-speed");
-  windSpeed.textContent =
-    "Wind speed: " + weatherData.days[0].windspeed + " km/h";
-
-  const humidity = document.querySelector(".humidity");
-  humidity.textContent = "Humidity: " + weatherData.days[0].humidity + "%";
-
-  const dewPoint = document.querySelector(".dew-point");
-  dewPoint.textContent = "Dew point: " + weatherData.days[0].dew + "°C";
-
-  const feelsLike = document.querySelector(".etc");
-  feelsLike.textContent =
-    "Feels like: " + Math.round(weatherData.days[0].feelslike) + "°C";
 }
 
 function changeBackground(url) {
@@ -86,10 +99,54 @@ function getCity(cityInput) {
   return cityInput.value;
 }
 
+function getRandomValue(upperBound) {
+  return Math.floor(Math.random() * upperBound);
+}
+
+function convertToFahrenheit(celsius) {
+  return Math.round((celsius * 9) / 5 + 32);
+}
+
+function convertToCelsius(fahr) {
+  return Math.round(((fahr - 32) * 5) / 9);
+}
+
+function changeUnit(arr, unit = "°C") {
+  arr.map((node) => (node.lastChild.textContent = unit));
+}
+
 city.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    const weather = getWeather(getCity(city));
-    console.log(weather);
+    getWeather(getCity(city));
     clearInput(city);
   }
+});
+
+const celsius = document.querySelector(".celsius");
+const fahrenheit = document.querySelector(".fahrenheit");
+
+function convert(mapFunction, unit) {
+  const [...temps] = document.querySelectorAll(".weather");
+  const [...containers] = document.querySelectorAll(".container");
+  const obj = getWeatherObject(w);
+  const data = [
+    obj["temp"],
+    obj["maxTemp"],
+    obj["minTemp"],
+    obj["dewPoint"],
+    obj["feelsLike"],
+  ];
+  const result = data.map(mapFunction, unit);
+  for (let i = 0; i < temps.length; i++) {
+    temps[i].textContent = result[i];
+  }
+  changeUnit(containers, unit);
+}
+
+celsius.addEventListener("click", () => {
+  convert(Math.round, "°C");
+});
+
+fahrenheit.addEventListener("click", () => {
+  convert(convertToFahrenheit, "°F");
 });

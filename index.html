@@ -11,14 +11,14 @@
     <header>
       <div class="logo center">WeatherApp</div>
       <div class="search">
-        <input
-          type="text"
-          class="city"
-          placeholder="Enter a city or zip code"
-        />
+        <input type="text" class="city" placeholder="Enter any city" />
         <div class="search-icon center">
           <img src="icons/search-interface-symbol.png" alt="search-icon" />
         </div>
+        <select class="convert" autocomplete="off">
+          <option value="Celsius" class="celsius" selected>Celsius</option>
+          <option value="Fahrenheit" class="fahrenheit">Fahrenheit</option>
+        </select>
       </div>
     </header>
     <main class="center">
@@ -29,8 +29,21 @@
             style="font-weight: bold; font-size: 3rem"
           ></p>
           <p class="current-weather"></p>
-          <p class="current-temp"></p>
-          <p class="temps"></p>
+          <div class="container">
+            Current temperature:
+            <p class="current-temp weather"></p>
+            °C
+          </div>
+          <div class="container">
+            Maximum temperature:
+            <p class="max-temp weather"></p>
+            °C
+          </div>
+          <div class="container">
+            Minimum temperature:
+            <p class="min-temp weather"></p>
+            °C
+          </div>
           <p class="description" style="font-size: 1.6rem"></p>
         </div>
         <div class="details-a center">
@@ -38,8 +51,16 @@
           <p class="humidity"></p>
         </div>
         <div class="details-b center">
-          <p class="dew-point"></p>
-          <p class="etc"></p>
+          <div class="container">
+            Dew point:
+            <p class="dew-point weather"></p>
+            °C
+          </div>
+          <div class="container">
+            Feels like:
+            <p class="etc weather"></p>
+            °C
+          </div>
         </div>
       </div>
     </main>
